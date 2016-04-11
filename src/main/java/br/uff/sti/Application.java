@@ -16,15 +16,9 @@ import org.springframework.boot.autoconfigure.*;
 @SpringBootApplication
 public class Application {
     
-  
-    
-    //hsqldb e spring boot
-    //1) usar @PathVariable -- aluno/23456
-    //2) transformar curso em uma entidade
     
     public static void main(String[] args) throws Exception {
-        SpringApplication.run(Application.class, args);
-        
+        SpringApplication.run(Application.class, args);  
     }
    
 }

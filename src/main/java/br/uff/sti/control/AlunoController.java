@@ -8,7 +8,6 @@ package br.uff.sti.control;
 import br.uff.sti.model.domain.Aluno;
 import br.uff.sti.model.domain.AlunoTurma;
 import br.uff.sti.model.domain.Curso;
-import br.uff.sti.model.domain.Turma;
 import br.uff.sti.model.dao.AlunoDAO;
 import br.uff.sti.model.dao.AlunoTurmaDAO;
 import br.uff.sti.model.dao.CursoDAO;
@@ -26,45 +25,24 @@ import org.springframework.web.bind.annotation.RestController;
  * @author uff
  */
 @RestController
+@RequestMapping(value = "/aluno")
 public class AlunoController {
 
-    
-    @Autowired
-    private TurmaService turmaService;
-    
     @Autowired
     private AlunoDAO alunoDAO;
     @Autowired
     private CursoDAO cursoDAO;
     
-    @Autowired
-    private TurmaDAO turmaDAO;
-    
-    @Autowired
-    private AlunoTurmaDAO alunoTurmaDAO;
-     
-   
-
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    AlunoTurma homeRP() {     
-        return alunoTurmaDAO.findByTurma(turmaDAO.findOne("1"));
-    }
-
-    @RequestMapping(value = "/aluno", method = RequestMethod.GET)
-    Aluno criarAlunoRP(@RequestParam(value = "matricula", required = false) String mat) {
-        Aluno aluno = new Aluno(mat, "fabio", new Curso("computacao", "123"));
-        return aluno;
-    }
-
-    @RequestMapping(value = "aluno/{matricula}", method = RequestMethod.GET)
-    Aluno criarAlunoPV(@PathVariable String matricula) {
+    @RequestMapping(value = "buscar/mat/{matricula}", method = RequestMethod.GET)
+    Aluno buscar(@PathVariable String matricula) {
         Aluno aluno = new Aluno(matricula, "fabio", new Curso("computacao", "123"));
+         return alunoDAO.findOne(matricula);
+    }
+    @RequestMapping(value = "criar/mat/{matricula}/nome/{nome}/curso/{codCurso}", method = RequestMethod.GET)
+    Aluno criar(@PathVariable String matricula,@PathVariable String nome,@PathVariable String codCurso) {
+        Aluno aluno = new Aluno(matricula, "fabio", cursoDAO.findOne(codCurso));
+        alunoDAO.save(aluno);
         return aluno;
     }
-
-    @RequestMapping(value = "/{op1}/{op2}", method = RequestMethod.GET)
-    String homePV(@PathVariable int op1, @PathVariable int op2) {
-        return op1 + "+" + op2 + "=" + (op1 + op2);
-    }
-
+ 
 }
