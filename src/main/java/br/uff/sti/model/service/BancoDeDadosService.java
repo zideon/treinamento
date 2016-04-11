@@ -24,7 +24,7 @@ import org.springframework.stereotype.Service;
  * @author uff
  */
 @Service
-public class TurmaService {
+public class BancoDeDadosService {
     
     @Autowired
     TurmaDAO turmaDAO;
@@ -50,10 +50,10 @@ public class TurmaService {
         for (int i = 0; i < 10; i++) {
             alunoDAO.save(new Aluno(""+i,"fabio"+i,cursoDAO.findOne(""+i))); 
         }
-        for (int i = 0; i < 10; i++) {
-            alunoTurmaDAO.save(new AlunoTurma(alunoDAO.findOne(""+i),
-                    turmaDAO.findOne(""+i)));
-        }
+//        for (int i = 0; i < 10; i++) {
+//            alunoTurmaDAO.save(new AlunoTurma(alunoDAO.findOne(""+i),
+//                    turmaDAO.findOne(""+i)));
+//        }
         
 
     }

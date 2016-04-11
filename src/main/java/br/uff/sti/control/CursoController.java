@@ -27,7 +27,6 @@ public class CursoController {
 
     @RequestMapping(value = "buscar/cod/{codigo}", method = RequestMethod.GET)
     Curso buscar(@PathVariable String codigo) {
-        Curso curso = new Curso();
         return cursoDAO.findOne(codigo);
     }
 

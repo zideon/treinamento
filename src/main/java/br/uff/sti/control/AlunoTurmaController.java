@@ -11,7 +11,7 @@ import br.uff.sti.model.dao.CursoDAO;
 import br.uff.sti.model.dao.TurmaDAO;
 import br.uff.sti.model.domain.AlunoTurma;
 import br.uff.sti.model.domain.Turma;
-import br.uff.sti.model.service.TurmaService;
+import br.uff.sti.model.service.BancoDeDadosService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/inscricao")
 public class AlunoTurmaController {
      @Autowired
-    private TurmaService turmaService;
+    private BancoDeDadosService turmaService;
     
     @Autowired
     private AlunoTurmaDAO alunoTurmaDAO;

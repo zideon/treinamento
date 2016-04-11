@@ -12,7 +12,7 @@ import br.uff.sti.model.dao.AlunoDAO;
 import br.uff.sti.model.dao.AlunoTurmaDAO;
 import br.uff.sti.model.dao.CursoDAO;
 import br.uff.sti.model.dao.TurmaDAO;
-import br.uff.sti.model.service.TurmaService;
+import br.uff.sti.model.service.BancoDeDadosService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
