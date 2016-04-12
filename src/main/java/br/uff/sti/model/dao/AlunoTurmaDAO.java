@@ -34,4 +34,10 @@ public interface AlunoTurmaDAO extends CrudRepository<AlunoTurma,String>{
             + " INNER JOIN FETCH atu.turma t "
             + " WHERE al.matricula = ?1")
     public List<AlunoTurma> findByMatriculaDoAluno(String matricula);
+    
+    @Query("SELECT atu FROM AlunoTurma atu "
+            + " INNER JOIN FETCH atu.aluno al "
+            + " INNER JOIN FETCH atu.turma t "
+            + " WHERE al.matricula = ?1 AND t.codigo = ?2")
+    public List<AlunoTurma> findByMatriculaDoAlunoECodigoDaTurma(String matricula,String codigo);
 }

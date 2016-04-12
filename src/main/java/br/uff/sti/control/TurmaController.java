@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -28,18 +29,18 @@ public class TurmaController {
     @Autowired
     private TurmaService turmaService;
 
-    @RequestMapping(value ="/", method = RequestMethod.GET)
-    String descricao(){
-        return "modelo de uma turma com codigo e professor";
+    @RequestMapping(value ="", method = RequestMethod.GET)
+    Iterable<Turma> todos(){
+        return turmaService.todos();
     }
     
-    @RequestMapping(value = "buscar/cod/{codigo}", method = RequestMethod.GET)
+    @RequestMapping(value = "{codigo}", method = RequestMethod.GET)
     Turma buscar(@PathVariable String codigo) {
         return turmaService.busca(codigo);
     }
 
-    @RequestMapping(value = "criar/cod/{codigo}/professor/{professor}", method = RequestMethod.GET)
-    Turma criar(@PathVariable String codigo,@PathVariable String professor) {
+    @RequestMapping(value = "novo/", method = RequestMethod.GET)
+    Turma criar( @RequestParam(value = "codigo",required = true) String codigo, @RequestParam(value = "professor",required = true) String professor) {
         return turmaService.salva(codigo, professor);
     }
 }

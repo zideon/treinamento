@@ -9,8 +9,10 @@ import br.uff.sti.model.dao.AlunoDAO;
 import br.uff.sti.model.dao.CursoDAO;
 import br.uff.sti.model.domain.Aluno;
 import br.uff.sti.model.domain.Log;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -51,8 +53,7 @@ public class AlunoService {
             }
             return aluno;
     }
-    //tentar analisar por que esse funciona mesmo busca sendo transactional e salva do log também
-    @Transactional
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public Aluno busca(String matricula) {
         try {
             Aluno aluno = alunoDAO.findOne(matricula);
@@ -65,5 +66,9 @@ public class AlunoService {
             logService.salva("buscaAluno",  Log.FALHA);
         }
         return null;
+    }
+    public Iterable<Aluno> todos(){
+        
+        return alunoDAO.findAll();
     }
 }

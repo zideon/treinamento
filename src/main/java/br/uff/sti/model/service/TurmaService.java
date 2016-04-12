@@ -11,6 +11,7 @@ import br.uff.sti.model.domain.Log;
 import br.uff.sti.model.domain.Turma;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -58,5 +59,9 @@ public class TurmaService {
             logService.salva("buscaTurma", Log.FALHA);
         }
         return null;
+    }
+     @Transactional
+    public Iterable<Turma> todos() {
+        return turmaDAO.findAll();
     }
 }

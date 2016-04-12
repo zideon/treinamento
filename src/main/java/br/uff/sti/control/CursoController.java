@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -26,18 +27,19 @@ public class CursoController {
     @Autowired
     private CursoService cursoService;
 
-    @RequestMapping(value ="/", method = RequestMethod.GET)
-    String descricao(){
-        return "modelo de um curso com codigo e professor ";
+    @RequestMapping(value ="", method = RequestMethod.GET)
+    Iterable<Curso> todos(){
+        return cursoService.todos();
     }
     
-    @RequestMapping(value = "buscar/cod/{codigo}", method = RequestMethod.GET)
+    @RequestMapping(value = "{codigo}", method = RequestMethod.GET)
     Curso buscar(@PathVariable String codigo) {
         return cursoService.busca(codigo);
     }
 
-    @RequestMapping(value = "criar/cod/{codigo}/nome/{nome}", method = RequestMethod.GET)
-    Curso criar(@PathVariable String codigo, @PathVariable String nome) {
+    @RequestMapping(value = "novo/", method = RequestMethod.GET)
+    Curso criar(@RequestParam(value = "codigo",required = true) String codigo
+            , @RequestParam(value = "nome",required = true) String nome) {
        return cursoService.salva(codigo, nome);
     }
 }

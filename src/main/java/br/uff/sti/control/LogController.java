@@ -9,10 +9,7 @@ import br.uff.sti.model.domain.Log;
 import br.uff.sti.model.service.LogService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  *
@@ -24,20 +21,30 @@ public class LogController {
     @Autowired
     private LogService logService;
     
-    @RequestMapping(value = "buscar/operacao/{operacao}", method = RequestMethod.GET)
-    List<Log> buscarPorOperacao(@PathVariable String operacao) {
-        return logService.buscaPorOperacao(operacao);
+    @RequestMapping(value = "", method = RequestMethod.GET)
+    Iterable<Log> todos() {
+        return logService.todos();
     }
-    @RequestMapping(value = "buscar/valor/{valor}", method = RequestMethod.GET)
-    List<Log> buscarPorValor(@PathVariable String valor) {
-        return logService.buscaPorValor(valor);
+    
+    @RequestMapping(value = "busca/", method = RequestMethod.GET)
+    List<Log> buscar(@RequestParam(value = "operacao",required = false) String operacao,
+            @RequestParam(value = "valor",required = false) String valor) {
+        if(operacao!=null && valor==null){
+            return logService.buscaPorOperacao(operacao);
+        }else if(operacao==null && valor!=null){
+            return logService.buscaPorValor(valor);
+        }else if(operacao!=null && valor !=null){
+            return logService.buscaPorOperacaoEValor(operacao, valor);
+        }
+        return null;
     }
-     @RequestMapping(value = "buscar/dataInicial/{dataInicial}/dataFinal/{dataFinal}", method = RequestMethod.GET)
-    List<Log> buscarPorIntervaloData(@PathVariable String dataInicial, @PathVariable String dataFinal) {
-        return logService.buscaIntervaloData(dataInicial, dataFinal);
-    }
-     @RequestMapping(value = "buscar/horarioInicial/{horarioInicial}/horarioFinal/{horarioFinal}", method = RequestMethod.GET)
-    List<Log> buscarPorIntervaloHorario(@PathVariable String horarioInicial, @PathVariable String horarioFinal) {
-        return logService.buscaIntervaloHorario(horarioInicial, horarioFinal);
-    }
+    
+//     @RequestMapping(value = "buscar/dataInicial/{dataInicial}/dataFinal/{dataFinal}", method = RequestMethod.GET)
+//    List<Log> buscarPorIntervaloData(@PathVariable String dataInicial, @PathVariable String dataFinal) {
+//        return logService.buscaIntervaloData(dataInicial, dataFinal);
+//    }
+//     @RequestMapping(value = "buscar/horarioInicial/{horarioInicial}/horarioFinal/{horarioFinal}", method = RequestMethod.GET)
+//    List<Log> buscarPorIntervaloHorario(@PathVariable String horarioInicial, @PathVariable String horarioFinal) {
+//        return logService.buscaIntervaloHorario(horarioInicial, horarioFinal);
+//    }
 }

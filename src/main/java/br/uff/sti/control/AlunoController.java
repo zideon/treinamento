@@ -8,11 +8,9 @@ package br.uff.sti.control;
 import br.uff.sti.model.domain.Aluno;
 import br.uff.sti.model.domain.Curso;
 import br.uff.sti.model.service.AlunoService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  *
@@ -25,17 +23,19 @@ public class AlunoController {
     @Autowired
     private AlunoService alunoService;
     
-    @RequestMapping(value ="/", method = RequestMethod.GET)
-    String descricao(){
-        return "modelo de um aluno com matricula ,nome e curso";
+    @RequestMapping(value ="", method = RequestMethod.GET)
+    Iterable<Aluno> todos(){
+        return alunoService.todos();
     }
-    @RequestMapping(value = "buscar/mat/{matricula}", method = RequestMethod.GET)
+    @RequestMapping(value = "{matricula}", method = RequestMethod.GET)
     Aluno buscar(@PathVariable String matricula) {
         return alunoService.busca(matricula);
     }
-    @RequestMapping(value = "criar/mat/{matricula}/nome/{nome}/curso/{codCurso}", method = RequestMethod.GET)
-    Aluno criar(@PathVariable String matricula,@PathVariable String nome,@PathVariable String codCurso) {
+    @RequestMapping(value = "novo/", method = RequestMethod.GET)
+    Aluno criar( @RequestParam(value = "matricula",required = true) String matricula,
+           @RequestParam(value = "nome",required = true) String nome,
+           @RequestParam(value = "curso",required = true) String codCurso) {
         return alunoService.salva(matricula, nome, codCurso);
     }
- 
+    //criar metodo criar com post
 }

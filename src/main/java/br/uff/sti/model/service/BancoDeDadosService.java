@@ -45,10 +45,10 @@ public class BancoDeDadosService {
         for (int i = 0; i < 10; i++) {
             alunoService.salva(new Aluno(""+i,"fabio"+i,cursoService.busca(""+i))); 
         }
-        for (int j = 0; j < 10; j++) {
+//        for (int j = 0; j < 10; j++) {
             for (int i = 0; i < 10; i++) {
-            inscricaoService.salva(""+j,""+i);
-        }
+            inscricaoService.salva(""+i,""+i);
+//        }
         }
         
         

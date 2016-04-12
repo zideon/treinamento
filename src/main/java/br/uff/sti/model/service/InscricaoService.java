@@ -11,6 +11,7 @@ import br.uff.sti.model.domain.Log;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -53,15 +54,21 @@ public class InscricaoService {
         }
         return alunoTurma;
     }
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+    public List<AlunoTurma> buscarPorAlunoETurma(String matriculaAluno ,String codigoTurma) {
 
-    @Transactional
+        List<AlunoTurma> lista = alunoTurmaDAO.findByMatriculaDoAlunoECodigoDaTurma(matriculaAluno, codigoTurma);
+        return confirirLista(lista);
+    }
+    
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public List<AlunoTurma> buscarPorTurma(String codigoTurma) {
 
         List<AlunoTurma> lista = alunoTurmaDAO.findByCodigoDaTurma(codigoTurma);
         return confirirLista(lista);
     }
 
-    @Transactional
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public List<AlunoTurma> buscarPorAluno(String matriculaAluno) {
 
         List<AlunoTurma> lista = alunoTurmaDAO.findByMatriculaDoAluno(matriculaAluno);
@@ -73,11 +80,16 @@ public class InscricaoService {
             if (lista == null) {
                 throw new Exception("");
             }
-            logService.salva("buscarPorAluno", Log.SUCESSO);
+            logService.salva("buscaInscricao", Log.SUCESSO);
             return lista;
         } catch (Exception ex) {
-            logService.salva("buscarPorAluno", Log.FALHA);
+            logService.salva("buscaInscricao", Log.FALHA);
         }
         return null;
+    }
+    @Transactional
+    public Iterable<AlunoTurma> todos() {
+
+        return alunoTurmaDAO.findAll();
     }
 }
