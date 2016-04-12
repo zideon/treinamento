@@ -10,6 +10,7 @@ import br.uff.sti.model.dao.TurmaDAO;
 import br.uff.sti.model.domain.Aluno;
 import br.uff.sti.model.domain.Curso;
 import br.uff.sti.model.domain.Turma;
+import br.uff.sti.model.service.TurmaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,21 +22,24 @@ import org.springframework.web.bind.annotation.RestController;
  * @author uff
  */
 @RestController
-@RequestMapping(value = "/aluno")
+@RequestMapping(value = "/turma")
 public class TurmaController {
 
     @Autowired
-    private TurmaDAO turmaDAO;
+    private TurmaService turmaService;
 
+    @RequestMapping(value ="/", method = RequestMethod.GET)
+    String descricao(){
+        return "modelo de uma turma com codigo e professor";
+    }
+    
     @RequestMapping(value = "buscar/cod/{codigo}", method = RequestMethod.GET)
     Turma buscar(@PathVariable String codigo) {
-        return turmaDAO.findOne(codigo);
+        return turmaService.busca(codigo);
     }
 
     @RequestMapping(value = "criar/cod/{codigo}/professor/{professor}", method = RequestMethod.GET)
     Turma criar(@PathVariable String codigo,@PathVariable String professor) {
-        Turma turma = new Turma(codigo, professor);
-        turmaDAO.save(turma);
-        return turma;
+        return turmaService.salva(codigo, professor);
     }
 }

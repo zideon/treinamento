@@ -15,10 +15,10 @@ public class AlunoTurma implements Serializable{
     @Id 
     @GeneratedValue
     private Long id ;
-    @JoinColumn(name = "cod_aluno")
+    @JoinColumn(name = "cod_aluno",nullable = false)
     @ManyToOne
     private Aluno aluno;
-    @JoinColumn(name = "cod_turma")
+    @JoinColumn(name = "cod_turma",nullable = false)
     @ManyToOne
     private Turma turma;
 

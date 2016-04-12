@@ -22,7 +22,7 @@ public class Aluno implements Serializable {
     
     private String nome;
     
-    @JoinColumn(name = "cod_curso")
+    @JoinColumn(name = "cod_curso",nullable = false)
     @ManyToOne
     private Curso curso;
 

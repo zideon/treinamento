@@ -12,6 +12,8 @@ import br.uff.sti.model.dao.TurmaDAO;
 import br.uff.sti.model.domain.AlunoTurma;
 import br.uff.sti.model.domain.Turma;
 import br.uff.sti.model.service.BancoDeDadosService;
+import br.uff.sti.model.service.InscricaoService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,31 +27,28 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "/inscricao")
 public class AlunoTurmaController {
-     @Autowired
-    private BancoDeDadosService turmaService;
-    
+
     @Autowired
-    private AlunoTurmaDAO alunoTurmaDAO;
-    
-    @Autowired
-    private AlunoDAO alunoDAO;
-    
-    @Autowired
-    private TurmaDAO turmaDAO;
-    
-    @RequestMapping(value = "buscar/codTurma/{codigoTurma}", method = RequestMethod.GET)
-    AlunoTurma buscarPorTurma(@PathVariable String codigoTurma) {
-        return alunoTurmaDAO.findByCodigoDaTurma(codigoTurma);
+    private InscricaoService inscricaoService;
+
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    String descricao() {
+        return "modelo de uma uma inscrição com aluno e turma ";
     }
+
+    @RequestMapping(value = "buscar/codTurma/{codigoTurma}", method = RequestMethod.GET)
+    List<AlunoTurma> buscarPorTurma(@PathVariable String codigoTurma) {
+        return inscricaoService.buscarPorTurma(codigoTurma);
+    }
+
     @RequestMapping(value = "buscar/matAluno/{matriculaAluno}", method = RequestMethod.GET)
-    AlunoTurma buscarPorAluno(@PathVariable String matriculaAluno) {
-        return alunoTurmaDAO.findByMatriculaDoAluno(matriculaAluno);
+    List<AlunoTurma> buscarPorAluno(@PathVariable String matriculaAluno) {
+        return inscricaoService.buscarPorAluno(matriculaAluno);
+
     }
 
     @RequestMapping(value = "criar/matAluno/{matriculaAluno}/codTurma/{codigoTurma}", method = RequestMethod.GET)
-    AlunoTurma criar(@PathVariable String matriculaAluno,@PathVariable String codigoTurma) {
-        AlunoTurma alunoTurma = new AlunoTurma(alunoDAO.findOne(matriculaAluno), turmaDAO.findOne(codigoTurma));
-        alunoTurmaDAO.save(alunoTurma);
-        return alunoTurma;
+    AlunoTurma criar(@PathVariable String matriculaAluno, @PathVariable String codigoTurma) {
+       return inscricaoService.salva(matriculaAluno, codigoTurma);
     }
 }

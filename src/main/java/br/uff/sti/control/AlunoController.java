@@ -6,18 +6,12 @@
 package br.uff.sti.control;
 
 import br.uff.sti.model.domain.Aluno;
-import br.uff.sti.model.domain.AlunoTurma;
 import br.uff.sti.model.domain.Curso;
-import br.uff.sti.model.dao.AlunoDAO;
-import br.uff.sti.model.dao.AlunoTurmaDAO;
-import br.uff.sti.model.dao.CursoDAO;
-import br.uff.sti.model.dao.TurmaDAO;
-import br.uff.sti.model.service.BancoDeDadosService;
+import br.uff.sti.model.service.AlunoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -29,20 +23,19 @@ import org.springframework.web.bind.annotation.RestController;
 public class AlunoController {
 
     @Autowired
-    private AlunoDAO alunoDAO;
-    @Autowired
-    private CursoDAO cursoDAO;
+    private AlunoService alunoService;
     
+    @RequestMapping(value ="/", method = RequestMethod.GET)
+    String descricao(){
+        return "modelo de um aluno com matricula ,nome e curso";
+    }
     @RequestMapping(value = "buscar/mat/{matricula}", method = RequestMethod.GET)
     Aluno buscar(@PathVariable String matricula) {
-        Aluno aluno = new Aluno(matricula, "fabio", new Curso("computacao", "123"));
-         return alunoDAO.findOne(matricula);
+        return alunoService.busca(matricula);
     }
     @RequestMapping(value = "criar/mat/{matricula}/nome/{nome}/curso/{codCurso}", method = RequestMethod.GET)
     Aluno criar(@PathVariable String matricula,@PathVariable String nome,@PathVariable String codCurso) {
-        Aluno aluno = new Aluno(matricula, "fabio", cursoDAO.findOne(codCurso));
-        alunoDAO.save(aluno);
-        return aluno;
+        return alunoService.salva(matricula, nome, codCurso);
     }
  
 }

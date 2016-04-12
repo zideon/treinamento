@@ -20,7 +20,7 @@ public class Curso implements Serializable {
     private  String codigo;
     
     
-    @Column ( name =" nome ")
+    @Column ( name =" nome ",nullable = false)
     private  String nome;
 
     public Curso() {}

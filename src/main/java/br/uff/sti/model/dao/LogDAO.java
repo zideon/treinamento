@@ -6,6 +6,9 @@
 package br.uff.sti.model.dao;
 
 import br.uff.sti.model.domain.Log;
+import java.util.Date;
+import java.util.List;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 /**
@@ -14,4 +17,17 @@ import org.springframework.data.repository.CrudRepository;
  */
 public interface LogDAO extends CrudRepository<Log,Long>{
     
+    
+    @Query("SELECT lg FROM Log lg \n" +
+    "WHERE lg.data BETWEEN ?1 AND ?2")
+    public  List<Log> findByIntervaloData(Date dataInicial,Date dataFinal);
+    @Query("SELECT lg FROM Log lg \n" +
+    "WHERE TIMElg.horario BETWEEN TIME?1 AND TIME?2")
+    public  List<Log> findByIntervaloHorario(Date horarioInicial,Date horarioFinal);
+    
+    @Query("SELECT lg From Log lg WHERE lg.operacao=?1")
+    public  List<Log> findByOperacao(String operacao);
+    @Query("SELECT lg From Log lg WHERE lg.valor=?1")
+    public  List<Log> findByValor(String valor);
+  
 }

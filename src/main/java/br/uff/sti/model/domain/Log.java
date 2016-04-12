@@ -7,11 +7,7 @@ package br.uff.sti.model.domain;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 
 /**
  *
@@ -19,13 +15,21 @@ import javax.persistence.TemporalType;
  */
 @Entity
 public class Log implements Serializable {
+    @Transient
+    public static final String SUCESSO= "SUCESSO";
+    @Transient
+    public static final String FALHA= "FALHA";
+    @Transient
+    public static final String INFO= "INFO";
     
     @Id 
     @GeneratedValue
     private Long id ;
     
     @Temporal(TemporalType.DATE)
-    private java.util.Date data;
+    private Date data;
+    @Temporal(TemporalType.TIME)
+    private Date horario;
     
     private String operacao;
     
@@ -33,8 +37,9 @@ public class Log implements Serializable {
 
     public Log() {}
 
-    public Log(Date data, String operacao, String valor) {
+    public Log(Date data, Date horario, String operacao, String valor) {
         this.data = data;
+        this.horario = horario;
         this.operacao = operacao;
         this.valor = valor;
     }
@@ -53,6 +58,10 @@ public class Log implements Serializable {
 
     public String getValor() {
         return valor;
+    }
+
+    public Date getHorario() {
+        return horario;
     }
     
     

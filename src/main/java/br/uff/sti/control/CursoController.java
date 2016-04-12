@@ -8,6 +8,7 @@ package br.uff.sti.control;
 import br.uff.sti.model.dao.CursoDAO;
 import br.uff.sti.model.domain.Aluno;
 import br.uff.sti.model.domain.Curso;
+import br.uff.sti.model.service.CursoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,17 +24,20 @@ import org.springframework.web.bind.annotation.RestController;
 public class CursoController {
 
     @Autowired
-    private CursoDAO cursoDAO;
+    private CursoService cursoService;
 
+    @RequestMapping(value ="/", method = RequestMethod.GET)
+    String descricao(){
+        return "modelo de um curso com codigo e professor ";
+    }
+    
     @RequestMapping(value = "buscar/cod/{codigo}", method = RequestMethod.GET)
     Curso buscar(@PathVariable String codigo) {
-        return cursoDAO.findOne(codigo);
+        return cursoService.busca(codigo);
     }
 
     @RequestMapping(value = "criar/cod/{codigo}/nome/{nome}", method = RequestMethod.GET)
     Curso criar(@PathVariable String codigo, @PathVariable String nome) {
-        Curso curso = new Curso(codigo, nome);
-        cursoDAO.save(curso);
-        return curso;
+       return cursoService.salva(codigo, nome);
     }
 }

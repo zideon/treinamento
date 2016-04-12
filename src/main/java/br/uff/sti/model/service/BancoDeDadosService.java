@@ -9,12 +9,7 @@ import br.uff.sti.model.domain.Aluno;
 import br.uff.sti.model.domain.AlunoTurma;
 import br.uff.sti.model.domain.Curso;
 import br.uff.sti.model.domain.Turma;
-import br.uff.sti.model.dao.AlunoDAO;
-import br.uff.sti.model.dao.AlunoTurmaDAO;
-import br.uff.sti.model.dao.CursoDAO;
-import br.uff.sti.model.dao.TurmaDAO;
-import java.util.ArrayList;
-import java.util.List;
+
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,33 +22,35 @@ import org.springframework.stereotype.Service;
 public class BancoDeDadosService {
     
     @Autowired
-    TurmaDAO turmaDAO;
+    TurmaService turmaService;
     
     @Autowired
-    AlunoDAO alunoDAO;
+    AlunoService alunoService;
     
     @Autowired
-    CursoDAO cursoDAO;
+    CursoService cursoService;
     
     @Autowired
-    AlunoTurmaDAO alunoTurmaDAO;
+    InscricaoService inscricaoService;
     
     @PostConstruct
     public void init(){
       
         for (int i = 0; i < 10; i++) { 
-            cursoDAO.save(new Curso(""+i,"comp"+i));
+            cursoService.salva(new Curso(""+i,"comp"+i));
         }
         for (int i = 0; i < 10; i++) {
-            turmaDAO.save(new Turma(""+i,"fulano"+i)); 
+            turmaService.salva(new Turma(""+i,"fulano"+i)); 
         }
         for (int i = 0; i < 10; i++) {
-            alunoDAO.save(new Aluno(""+i,"fabio"+i,cursoDAO.findOne(""+i))); 
+            alunoService.salva(new Aluno(""+i,"fabio"+i,cursoService.busca(""+i))); 
         }
-//        for (int i = 0; i < 10; i++) {
-//            alunoTurmaDAO.save(new AlunoTurma(alunoDAO.findOne(""+i),
-//                    turmaDAO.findOne(""+i)));
-//        }
+        for (int j = 0; j < 10; j++) {
+            for (int i = 0; i < 10; i++) {
+            inscricaoService.salva(""+j,""+i);
+        }
+        }
+        
         
 
     }
