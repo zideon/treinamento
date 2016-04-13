@@ -12,6 +12,8 @@ import br.uff.sti.model.domain.Curso;
 import br.uff.sti.model.domain.Turma;
 import br.uff.sti.model.service.TurmaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,21 +32,33 @@ public class TurmaController {
     private TurmaService turmaService;
 
     @RequestMapping(value ="", method = RequestMethod.GET)
-    Iterable<Turma> todos(){
-        return turmaService.todos();
+    ResponseEntity<Iterable<Turma>> todos(){
+        return new ResponseEntity<>(turmaService.todos(),HttpStatus.OK);
     }
     
     @RequestMapping(value = "{codigo}", method = RequestMethod.GET)
-    Turma buscar(@PathVariable String codigo) {
-        return turmaService.busca(codigo);
+    ResponseEntity<Turma> buscar(@PathVariable String codigo) {
+        Turma turma= turmaService.busca(codigo);
+        if(turma==null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(turma,HttpStatus.OK);
     }
 
     @RequestMapping(value = "novo/", method = RequestMethod.GET)
-    Turma criarGet( @RequestParam(value = "codigo",required = true) String codigo, @RequestParam(value = "professor",required = true) String professor) {
-        return turmaService.salva(codigo, professor);
+    ResponseEntity<Turma> criarGet( @RequestParam(value = "codigo",required = true) String codigo, @RequestParam(value = "professor",required = true) String professor) {
+        Turma turma = turmaService.salva(turmaService.cria(codigo, professor));
+        if(turma==null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(turma,HttpStatus.OK);
     }
     @RequestMapping(value = "novo/", method = RequestMethod.POST)
-    Turma criarPost( @RequestParam(value = "codigo",required = true) String codigo, @RequestParam(value = "professor",required = true) String professor) {
-        return turmaService.salva(codigo, professor);
+    ResponseEntity<Turma> criarPost( @RequestParam(value = "codigo",required = true) String codigo, @RequestParam(value = "professor",required = true) String professor) {
+        Turma turma = turmaService.salva(turmaService.cria(codigo, professor));
+        if(turma==null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(turma,HttpStatus.OK);
     }
 }

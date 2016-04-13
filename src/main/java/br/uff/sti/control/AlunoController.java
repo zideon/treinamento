@@ -6,9 +6,7 @@
 package br.uff.sti.control;
 
 import br.uff.sti.model.domain.Aluno;
-import br.uff.sti.model.domain.Curso;
 import br.uff.sti.model.service.AlunoService;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -25,40 +23,58 @@ public class AlunoController {
 
     @Autowired
     private AlunoService alunoService;
-    
-    @RequestMapping(value ="", method = RequestMethod.GET)
-    Iterable<Aluno> todos(){
-        return alunoService.todos();
+
+    @RequestMapping(value = "", method = RequestMethod.GET)
+    ResponseEntity<Iterable<Aluno>> todos() {
+        return new ResponseEntity<>(alunoService.todos(), HttpStatus.OK);
     }
-    @RequestMapping(value = "{matricula}", 
-            method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<Aluno> buscar(@PathVariable String matricula) {
+
+    @RequestMapping(value = "{matricula}", method = RequestMethod.GET)
+    ResponseEntity<Aluno> buscar(
+            @PathVariable String matricula
+    ) {
         Aluno aluno = alunoService.busca(matricula);
-        if(aluno==null){
+        if (aluno == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<Aluno>(aluno,HttpStatus.OK);
+        return new ResponseEntity<>(aluno, HttpStatus.OK);
     }
+
     @RequestMapping(value = "novo/", method = RequestMethod.GET)
-    Aluno criarGet( @RequestParam(value = "matricula",required = true) String matricula,
-           @RequestParam(value = "nome",required = true) String nome,
-           @RequestParam(value = "curso",required = true) String codCurso) {
-        return alunoService.salva(matricula, nome, codCurso);
+    ResponseEntity<Aluno> criarGet(
+            @RequestParam(value = "matricula", required = true) String matricula,
+            @RequestParam(value = "nome", required = true) String nome,
+            @RequestParam(value = "curso", required = true) String codCurso
+    ) {
+        Aluno aluno = alunoService.salva(alunoService.cria(matricula, nome, codCurso));
+        if(aluno==null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(aluno, HttpStatus.CREATED);
     }
+
     @RequestMapping(value = "novo/", method = RequestMethod.POST)
-    Aluno criarPost( @RequestParam(value = "matricula",required = true) String matricula,
-           @RequestParam(value = "nome",required = true) String nome,
-           @RequestParam(value = "curso",required = true) String codCurso) {
-        return alunoService.salva(matricula, nome, codCurso);
+    ResponseEntity<Aluno> criarPost(
+            @RequestParam(value = "matricula", required = true) String matricula,
+            @RequestParam(value = "nome", required = true) String nome,
+            @RequestParam(value = "curso", required = true) String codCurso
+    ) {
+        Aluno aluno = alunoService.salva(alunoService.cria(matricula, nome, codCurso));
+        if(aluno==null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(aluno, HttpStatus.CREATED);
     }
-    
-    
+
     @RequestMapping(value = "novo/", method = RequestMethod.POST,
-             produces = MediaType.APPLICATION_JSON_VALUE,
-             consumes =  MediaType.APPLICATION_JSON_VALUE)
-     ResponseEntity<Aluno> criarPorObjeto(@RequestBody Aluno aluno) {
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<Aluno> criarPorObjeto(
+            @RequestBody Aluno aluno
+    ) {
         aluno = alunoService.salva(aluno);
-        return new ResponseEntity<Aluno>(aluno,HttpStatus.CREATED);
+        return new ResponseEntity<>(aluno, HttpStatus.CREATED);
     }
+    //Requestbody!=model atribute
+    //exception handler spring
 }

@@ -41,6 +41,12 @@ public class AlunoTurma implements Serializable{
         this.aluno = aluno;
         this.turma = turma;
     }
-    
-    
+    public AlunoTurma addAluno(Aluno aluno){
+        this.aluno = aluno;
+        return this;
+    }
+    public AlunoTurma addTurma(Turma turma){
+        this.turma = turma;
+        return this;
+    }
 }

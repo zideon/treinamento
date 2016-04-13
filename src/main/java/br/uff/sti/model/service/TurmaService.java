@@ -19,49 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author uff
  */
 @Service
-public class TurmaService {
+public interface TurmaService extends DAOService<Turma> {
 
-    @Autowired
-    private TurmaDAO turmaDAO;
-
-    @Autowired
-    private LogService logService;
-
-    @Transactional
-    public Turma salva(Turma turma) {
-        try {
-            turmaDAO.save(turma);
-            logService.salva("salvaTurma", Log.SUCESSO);
-            return turma;
-        } catch (Exception ex) {
-            System.err.println(ex.getMessage());
-        }
-        return null;
-    }
-
-    @Transactional
-    public Turma salva(String codigo, String professor) {
-        Turma turma = new Turma(codigo, professor);
-        turma =  salva(turma);
-        if(turma ==null){
-             logService.salva("salvaTurma", Log.FALHA);
-        }
-        return turma;
-    }
-
-    @Transactional
-    public Turma busca(String codigo) {
-        try {
-            Turma turma = turmaDAO.findOne(codigo);
-            logService.salva("salvaTurma", Log.SUCESSO);
-            return turma;
-        } catch (Exception ex) {
-            logService.salva("buscaTurma", Log.FALHA);
-        }
-        return null;
-    }
-     @Transactional
-    public Iterable<Turma> todos() {
-        return turmaDAO.findAll();
-    }
+    
 }

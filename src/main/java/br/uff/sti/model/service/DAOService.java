@@ -5,13 +5,8 @@
  */
 package br.uff.sti.model.service;
 
-import br.uff.sti.model.dao.CursoDAO;
-import br.uff.sti.model.domain.Aluno;
-import br.uff.sti.model.domain.Curso;
-import br.uff.sti.model.domain.Log;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -19,7 +14,11 @@ import org.springframework.transaction.annotation.Transactional;
  * @author uff
  */
 @Service
-public interface CursoService extends DAOService<Curso>{
-
-    
+public interface DAOService<I> {
+ 
+    public I salva(I obj);
+    public I busca(String id);
+    public List<I> buscaPorAtributos(I modelo);
+    public I cria(Object ... objs);
+    public Iterable<I> todos();
 }

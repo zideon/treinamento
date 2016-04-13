@@ -6,7 +6,6 @@
 package br.uff.sti.model.service;
 
 import br.uff.sti.model.domain.Aluno;
-import br.uff.sti.model.domain.AlunoTurma;
 import br.uff.sti.model.domain.Curso;
 import br.uff.sti.model.domain.Turma;
 
@@ -37,18 +36,18 @@ public class BancoDeDadosService {
     public void init(){
       
         for (int i = 0; i < 10; i++) { 
-            cursoService.salva(new Curso(""+i,"comp"+i));
+            cursoService.salva(cursoService.cria(""+i,"comp"+i));
         }
         for (int i = 0; i < 10; i++) {
-            turmaService.salva(new Turma(""+i,"fulano"+i)); 
+            turmaService.salva(turmaService.cria(""+i,"fulano"+i)); 
         }
         for (int i = 0; i < 10; i++) {
-            alunoService.salva(new Aluno(""+i,"fabio"+i,cursoService.busca(""+i))); 
+            alunoService.salva(alunoService.cria(""+i,"fabio"+i,""+i)); 
         }
-//        for (int j = 0; j < 10; j++) {
+        for (int j = 0; j < 10; j++) {
             for (int i = 0; i < 10; i++) {
-            inscricaoService.salva(""+i,""+i);
-//        }
+            inscricaoService.salva(inscricaoService.cria(""+j,""+i));
+        }
         }
         
         

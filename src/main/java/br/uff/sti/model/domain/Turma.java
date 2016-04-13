@@ -20,19 +20,24 @@ public class Turma implements Serializable {
     
     private String professor;
     
-    public String getCodigo() {
-        return codigo;
-    }
 
     public Turma() {
     }
-    
-    public Turma(String codigo, String professor) {
-        this.codigo = codigo;
-        this.professor = professor;
+
+     public String getCodigo() {
+        return codigo;
     }
 
-    public void setCodigo(String codigo) {
+    public String getProfessor() {
+        return professor;
+    }
+    
+    public Turma addCodigo(String codigo){
         this.codigo = codigo;
+        return this;
+    }
+    public Turma addProfessor(String professor){
+        this.professor = professor;
+        return this;
     }
 }

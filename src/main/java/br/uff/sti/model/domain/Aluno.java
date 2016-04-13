@@ -28,12 +28,6 @@ public class Aluno implements Serializable {
 
     public Aluno() {}
 
-    public Aluno(String matricula, String nome, Curso curso) {
-        this.matricula = matricula;
-        this.nome = nome;
-        this.curso = curso;
-    }
-
     public String getMatricula() {
         return matricula;
     }
@@ -45,5 +39,16 @@ public class Aluno implements Serializable {
     public Curso getCurso() {
         return curso;
     }
-
+    public Aluno addMatricula(String matricula){
+        this.matricula= matricula;
+        return this;
+    }
+    public Aluno addNome(String nome){
+        this.nome= nome;
+        return this;
+    }
+    public Aluno addCurso(Curso curso){
+        this.curso= curso;
+        return this;
+    }
 }

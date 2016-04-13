@@ -9,6 +9,8 @@ import br.uff.sti.model.domain.Log;
 import br.uff.sti.model.service.LogService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -22,21 +24,21 @@ public class LogController {
     private LogService logService;
     
     @RequestMapping(value = "", method = RequestMethod.GET)
-    Iterable<Log> todos() {
-        return logService.todos();
+    ResponseEntity<Iterable<Log>> todos() {
+        return new ResponseEntity<>(logService.todos(),HttpStatus.OK);
     }
     
     @RequestMapping(value = "busca/", method = RequestMethod.GET)
-    List<Log> buscar(@RequestParam(value = "operacao",required = false) String operacao,
-            @RequestParam(value = "valor",required = false) String valor) {
-        if(operacao!=null && valor==null){
-            return logService.buscaPorOperacao(operacao);
-        }else if(operacao==null && valor!=null){
-            return logService.buscaPorValor(valor);
-        }else if(operacao!=null && valor !=null){
-            return logService.buscaPorOperacaoEValor(operacao, valor);
+    ResponseEntity<List<Log>> buscar(
+            @RequestParam(value = "operacao",required = false) String operacao,
+            @RequestParam(value = "valor",required = false) String valor
+    ) {
+        Log log = new Log().addOperacao(operacao).addValor(valor);
+        List<Log> logs = logService.buscaPorAtributos(log);
+        if(logs==null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return null;
+        return new ResponseEntity<>(logs,HttpStatus.OK);
     }
     
 //     @RequestMapping(value = "buscar/dataInicial/{dataInicial}/dataFinal/{dataFinal}", method = RequestMethod.GET)

@@ -25,10 +25,6 @@ public class Curso implements Serializable {
 
     public Curso() {}
 
-    public Curso(String codigo,String nome) {
-        this.nome = nome;
-        this.codigo = codigo;
-    }
 
     public String getNome() {
         return nome;
@@ -37,5 +33,12 @@ public class Curso implements Serializable {
     public String getCodigo() {
         return codigo;
     }
-    
+    public Curso addNome(String nome){
+        this.nome = nome;
+        return this;
+    }
+    public Curso addCodigo(String codigo){
+        this.codigo = codigo;
+        return this;
+    }
 }

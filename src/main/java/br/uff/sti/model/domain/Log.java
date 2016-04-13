@@ -37,13 +37,6 @@ public class Log implements Serializable {
 
     public Log() {}
 
-    public Log(Date data, Date horario, String operacao, String valor) {
-        this.data = data;
-        this.horario = horario;
-        this.operacao = operacao;
-        this.valor = valor;
-    }
-
     public Long getId() {
         return id;
     }
@@ -63,6 +56,16 @@ public class Log implements Serializable {
     public Date getHorario() {
         return horario;
     }
-    
-    
+    public Log addData(Date data){
+        this.data = data;
+        return this;
+    }
+    public Log addOperacao(String operacao){
+        this.operacao = operacao;
+        return this;
+     }
+    public Log addValor(String valor){
+        this.valor = valor;
+        return this;
+    }
 }
