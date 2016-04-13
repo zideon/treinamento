@@ -38,7 +38,12 @@ public class CursoController {
     }
 
     @RequestMapping(value = "novo/", method = RequestMethod.GET)
-    Curso criar(@RequestParam(value = "codigo",required = true) String codigo
+    Curso criarGet(@RequestParam(value = "codigo",required = true) String codigo
+            , @RequestParam(value = "nome",required = true) String nome) {
+       return cursoService.salva(codigo, nome);
+    }
+    @RequestMapping(value = "novo/", method = RequestMethod.POST)
+    Curso criarPost(@RequestParam(value = "codigo",required = true) String codigo
             , @RequestParam(value = "nome",required = true) String nome) {
        return cursoService.salva(codigo, nome);
     }

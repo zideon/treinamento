@@ -40,7 +40,11 @@ public class TurmaController {
     }
 
     @RequestMapping(value = "novo/", method = RequestMethod.GET)
-    Turma criar( @RequestParam(value = "codigo",required = true) String codigo, @RequestParam(value = "professor",required = true) String professor) {
+    Turma criarGet( @RequestParam(value = "codigo",required = true) String codigo, @RequestParam(value = "professor",required = true) String professor) {
+        return turmaService.salva(codigo, professor);
+    }
+    @RequestMapping(value = "novo/", method = RequestMethod.POST)
+    Turma criarPost( @RequestParam(value = "codigo",required = true) String codigo, @RequestParam(value = "professor",required = true) String professor) {
         return turmaService.salva(codigo, professor);
     }
 }

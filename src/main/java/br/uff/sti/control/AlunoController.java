@@ -32,7 +32,13 @@ public class AlunoController {
         return alunoService.busca(matricula);
     }
     @RequestMapping(value = "novo/", method = RequestMethod.GET)
-    Aluno criar( @RequestParam(value = "matricula",required = true) String matricula,
+    Aluno criarGet( @RequestParam(value = "matricula",required = true) String matricula,
+           @RequestParam(value = "nome",required = true) String nome,
+           @RequestParam(value = "curso",required = true) String codCurso) {
+        return alunoService.salva(matricula, nome, codCurso);
+    }
+    @RequestMapping(value = "novo/", method = RequestMethod.POST)
+    Aluno criarPost( @RequestParam(value = "matricula",required = true) String matricula,
            @RequestParam(value = "nome",required = true) String nome,
            @RequestParam(value = "curso",required = true) String codCurso) {
         return alunoService.salva(matricula, nome, codCurso);
