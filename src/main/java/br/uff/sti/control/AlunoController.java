@@ -10,6 +10,9 @@ import br.uff.sti.model.domain.Curso;
 import br.uff.sti.model.service.AlunoService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -27,9 +30,15 @@ public class AlunoController {
     Iterable<Aluno> todos(){
         return alunoService.todos();
     }
-    @RequestMapping(value = "{matricula}", method = RequestMethod.GET)
-    Aluno buscar(@PathVariable String matricula) {
-        return alunoService.busca(matricula);
+    @RequestMapping(value = "{matricula}", 
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<Aluno> buscar(@PathVariable String matricula) {
+        Aluno aluno = alunoService.busca(matricula);
+        if(aluno==null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<Aluno>(aluno,HttpStatus.OK);
     }
     @RequestMapping(value = "novo/", method = RequestMethod.GET)
     Aluno criarGet( @RequestParam(value = "matricula",required = true) String matricula,
@@ -43,5 +52,13 @@ public class AlunoController {
            @RequestParam(value = "curso",required = true) String codCurso) {
         return alunoService.salva(matricula, nome, codCurso);
     }
-    //criar metodo criar com post
+    
+    
+    @RequestMapping(value = "novo/", method = RequestMethod.POST,
+             produces = MediaType.APPLICATION_JSON_VALUE,
+             consumes =  MediaType.APPLICATION_JSON_VALUE)
+     ResponseEntity<Aluno> criarPorObjeto(@RequestBody Aluno aluno) {
+        aluno = alunoService.salva(aluno);
+        return new ResponseEntity<Aluno>(aluno,HttpStatus.CREATED);
+    }
 }
