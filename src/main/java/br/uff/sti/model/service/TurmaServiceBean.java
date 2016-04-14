@@ -11,6 +11,7 @@ import br.uff.sti.model.domain.Turma;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author uff
  */
 @Service
+@Transactional(propagation = Propagation.SUPPORTS,readOnly = true)
 public class TurmaServiceBean implements TurmaService{
     @Autowired
     private TurmaDAO turmaDAO;
@@ -34,7 +36,7 @@ public class TurmaServiceBean implements TurmaService{
        }
        return turma;
     }
-     @Transactional
+      @Transactional(propagation = Propagation.REQUIRED,readOnly = false)
     public Turma salvaT(Turma turma) {
         try {
             turmaDAO.save(turma);
@@ -47,7 +49,7 @@ public class TurmaServiceBean implements TurmaService{
     }
 
 
-    @Transactional
+    
     @Override
     public Turma busca(String codigo) {
         try {
@@ -59,7 +61,7 @@ public class TurmaServiceBean implements TurmaService{
         }
         return null;
     }
-     @Transactional
+     
     @Override
     public Iterable<Turma> todos() {
         return turmaDAO.findAll();

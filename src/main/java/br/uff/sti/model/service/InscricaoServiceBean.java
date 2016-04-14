@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author uff
  */
 @Service
+@Transactional(propagation = Propagation.SUPPORTS,readOnly = true)
 public class InscricaoServiceBean implements InscricaoService {
     
     @Autowired
@@ -39,7 +40,7 @@ public class InscricaoServiceBean implements InscricaoService {
        }
        return alunoTurma;
     }
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRED,readOnly = false)
     public AlunoTurma salvaT(AlunoTurma alunoTurma) {
         try {
             alunoTurmaDAO.save(alunoTurma);
@@ -84,7 +85,6 @@ public class InscricaoServiceBean implements InscricaoService {
     }
 
     @Override
-    @Transactional
     public List<AlunoTurma> buscaPorAtributos(AlunoTurma modelo) {
         String matricula = modelo.getAluno().getMatricula();
         String codigo = modelo.getTurma().getCodigo();

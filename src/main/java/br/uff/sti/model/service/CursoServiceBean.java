@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author uff
  */
 @Service
+@Transactional(propagation = Propagation.SUPPORTS,readOnly = true)
 public class CursoServiceBean implements CursoService{
     @Autowired
     private CursoDAO cursoDAO;
@@ -35,7 +36,7 @@ public class CursoServiceBean implements CursoService{
         }
         return curso;
     }
-    @Transactional
+     @Transactional(propagation = Propagation.REQUIRED,readOnly = false)
     public Curso salvaT(Curso curso) {
         try {
             cursoDAO.save(curso);
@@ -47,7 +48,6 @@ public class CursoServiceBean implements CursoService{
         return null;
     }
 
-    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @Override
     public Curso busca(String codigo) {
         try {

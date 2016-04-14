@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author uff
  */
 @Service
+@Transactional(propagation = Propagation.SUPPORTS,readOnly = true)
 public class AlunoServiceBean implements AlunoService {
 
     @Autowired
@@ -40,7 +41,7 @@ public class AlunoServiceBean implements AlunoService {
         return aluno;
     }
 
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRED,readOnly = false)
     public Aluno salvaT(Aluno aluno) {
 
         try {
@@ -55,7 +56,7 @@ public class AlunoServiceBean implements AlunoService {
 
    
 
-    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+    
     public Aluno busca(String matricula) {
         try {
             Aluno aluno = alunoDAO.findOne(matricula);

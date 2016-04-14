@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -18,24 +19,25 @@ import org.springframework.transaction.annotation.Transactional;
  * @author uff
  */
 @Service
+@Transactional(propagation = Propagation.SUPPORTS,readOnly = true)
 public class LogServiceBean implements LogService{
     @Autowired
     private LogDAO logDAO;
 
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRED,readOnly = false)
     @Override
     public Log salva(Log log) {
         logDAO.save(log);
         return log;
     } 
 
-    @Transactional
+ 
     public Log busca(Long id) {
         Log log = logDAO.findOne(id);
         return log;
     }
    
-    @Transactional
+    
     public Iterable<Log> todos() {
         return logDAO.findAll();
     }

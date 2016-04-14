@@ -13,9 +13,12 @@ import br.uff.sti.model.service.BancoDeDadosService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.*;
 import org.springframework.boot.autoconfigure.*;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @EnableAutoConfiguration
 @SpringBootApplication
+@EnableTransactionManagement
 public class Application {
    @Autowired
    private BancoDeDadosService turmaService; 
@@ -23,6 +26,6 @@ public class Application {
     public static void main(String[] args) throws Exception {
         SpringApplication.run(Application.class, args);  
     }
-   
+
 }
 
